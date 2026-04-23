@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CrimLaw Flashcards</title>
+<style>
+  :root {
+    --bg: #faf8f3;
+    --surface: #ffffff;
+    --surface-2: #f4f1ea;
+    --border: #e5e0d5;
+    --border-strong: #d4ccbc;
+    --text: #2a2a28;
+    --text-muted: #6b6862;
+    --text-faint: #9a9589;
+    --accent: #7a4a2b;
+    --accent-light: #f2e8dd;
+    --accent-dark: #5a3620;
+    --good: #3f7d3f;
+    --good-bg: #e8f1e4;
+    --again: #b74a3a;
+    --again-bg: #f5e3df;
+    --hard: #b8873a;
+    --hard-bg: #f5eadc;
+    --shadow: 0 1px 3px rgba(0,0,0,0.04);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.08);
+  }
+  [data-theme="dark"] {
+    --bg: #1a1916;
+    --surface: #24221e;
+    --surface-2: #2d2a25;
+    --border: #3a3631;
+    --border-strong: #4a463f;
+    --text: #e8e4db;
+    --text-muted: #a09a8d;
+    --text-faint: #6b6760;
+    --accent: #c68b5e;
+    --accent-light: #3a2a1f;
+    --accent-dark: #e3a57a;
+    --good: #7ab87a;
+    --good-bg: #2a3a28;
+    --again: #e07968;
+    --again-bg: #3d2823;
+    --hard: #e0b370;
+    --hard-bg: #3a2f1f;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Georgia', 'Iowan Old Style', 'Palatino', serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.2s, color 0.2s;
+  }
+  .app {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+  header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  h1 {
+    margin: 0;
+    font-size: 1.6rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .subtitle {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .theme-toggle {
+    background: transparent;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    color: var(--text);
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: inherit;
+  }
+  .theme-toggle:hover { background: var(--surface-2); }
+
+  .controls {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.85rem;
+  }
+  .search-box {
+    flex: 1;
+    min-width: 200px;
+    padding: 8px 12px;
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+  }
+  .search-box:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: var(--accent); }
+  .btn {
+    padding: 8px 14px;
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13px;
+    transition: all 0.15s;
+  }
+  .btn:hover { background: var(--surface-2); border-color: var(--accent); }
+  .btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
+  .btn.primary:hover { background: var(--accent-dark); }
+
+  .mode-tabs {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1.25rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.82rem;
+  }
+  .mode-tab {
+    flex: 1;
+    padding: 10px 14px;
+    background: var(--surface);
+    border: none;
+    border-right: 1px solid var(--border-strong);
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    transition: all 0.15s;
+  }
+  .mode-tab:last-child { border-right: none; }
+  .mode-tab:hover { background: var(--surface-2); }
+  .mode-tab.active {
+    background: var(--accent);
+    color: white;
+    font-weight: 500;
+  }
+
+  .topic-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 1.5rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .chip {
+    padding: 5px 12px;
+    font-size: 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .chip:hover { border-color: var(--border-strong); color: var(--text); }
+  .chip.active {
+    background: var(--accent-light);
+    border-color: var(--accent);
+    color: var(--accent-dark);
+    font-weight: 500;
+  }
+  .chip .count {
+    opacity: 0.7;
+    font-size: 11px;
+    margin-left: 4px;
+  }
+
+  /* Card */
+  .card-container { position: relative; perspective: 1500px; margin-bottom: 1.25rem; }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 14px;
+    padding: 2rem 2rem;
+    min-height: 380px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.2s, transform 0.15s;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .card:hover { box-shadow: var(--shadow-lg); }
+  .card:active { transform: scale(0.998); }
+
+  .card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 0.5rem;
+  }
+  .card-topic {
+    color: var(--accent);
+    font-weight: 500;
+  }
+  .card-type-tag {
+    padding: 2px 8px;
+    background: var(--surface-2);
+    border-radius: 999px;
+    font-size: 10px;
+  }
+  .card-title {
+    font-size: 1.35rem;
+    font-weight: 500;
+    margin: 0.5rem 0 1.25rem;
+    color: var(--text);
+    line-height: 1.35;
+  }
+  .card-content {
+    flex: 1;
+    font-size: 1.02rem;
+    color: var(--text);
+    line-height: 1.75;
+  }
+  .card-content strong { font-weight: 600; color: var(--accent-dark); }
+  [data-theme="dark"] .card-content strong { color: var(--accent-dark); }
+  .card-content em { font-style: italic; color: var(--text-muted); }
+
+  .card-side-label {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-side-label::before {
+    content: '';
+    width: 16px;
+    height: 1px;
+    background: var(--border-strong);
+  }
+
+  .flip-hint {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    color: var(--text-faint);
+    text-align: center;
+    margin-top: 1.25rem;
+    font-style: italic;
+  }
+
+  /* Navigation */
+  .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 13px;
+  }
+  .nav-btn {
+    padding: 10px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    color: var(--text);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: inherit;
+    transition: all 0.15s;
+  }
+  .nav-btn:hover { background: var(--surface-2); border-color: var(--accent); }
+  .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .progress {
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Study mode (spaced repetition) */
+  .rating-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-top: 1rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .rating-btn {
+    padding: 14px 12px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.15s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .rating-btn .label { font-size: 13px; }
+  .rating-btn .shortcut { font-size: 10px; opacity: 0.7; font-weight: 400; }
+  .rating-again { background: var(--again-bg); color: var(--again); border-color: var(--again); }
+  .rating-again:hover { background: var(--again); color: white; }
+  .rating-hard { background: var(--hard-bg); color: var(--hard); border-color: var(--hard); }
+  .rating-hard:hover { background: var(--hard); color: white; }
+  .rating-good { background: var(--good-bg); color: var(--good); border-color: var(--good); }
+  .rating-good:hover { background: var(--good); color: white; }
+
+  .stats-bar {
+    display: flex;
+    justify-content: space-around;
+    background: var(--surface-2);
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 1rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+  }
+  .stat { text-align: center; }
+  .stat-value {
+    font-size: 20px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    color: var(--text);
+    display: block;
+  }
+  .stat-label {
+    color: var(--text-muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-muted);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .empty-state h3 {
+    font-family: Georgia, serif;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  /* Browse mode list */
+  .browse-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .browse-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .browse-item:hover {
+    border-color: var(--accent);
+    transform: translateX(2px);
+  }
+  .browse-item-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    margin-bottom: 4px;
+  }
+  .browse-item-title {
+    font-weight: 500;
+    font-size: 1rem;
+    margin-bottom: 4px;
+  }
+  .browse-item-preview {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .browse-expanded {
+    border-top: 1px solid var(--border);
+    margin-top: 10px;
+    padding-top: 10px;
+    font-size: 0.9rem;
+  }
+  .browse-expanded strong { color: var(--accent-dark); }
+
+  .keyboard-hints {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    color: var(--text-faint);
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+  .keyboard-hints kbd {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-family: 'Helvetica Neue', monospace;
+    font-size: 10px;
+    margin: 0 2px;
+  }
+
+  @media (max-width: 600px) {
+    .app { padding: 1rem 0.75rem 3rem; }
+    .card { padding: 1.5rem 1.25rem; min-height: 340px; }
+    .card-title { font-size: 1.15rem; }
+    .card-content { font-size: 0.95rem; }
+    h1 { font-size: 1.3rem; }
+    .mode-tabs { font-size: 0.75rem; }
+    .mode-tab { padding: 9px 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="header-row">
+      <div>
+        <h1>Criminal Law Flashcards</h1>
+        <div class="subtitle" id="subtitle">Loading…</div>
+      </div>
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">◐</button>
+    </div>
+  </header>
+
+  <div class="mode-tabs">
+    <button class="mode-tab active" data-mode="study">Study</button>
+    <button class="mode-tab" data-mode="flip">Flip</button>
+    <button class="mode-tab" data-mode="browse">Browse</button>
+  </div>
+
+  <div class="controls">
+    <input type="text" class="search-box" id="search" placeholder="Search cases, doctrines, keywords…" />
+    <button class="btn" id="shuffleBtn">Shuffle</button>
+    <button class="btn" id="resetBtn" title="Reset study progress">Reset progress</button>
+  </div>
+
+  <div class="topic-filters" id="topicFilters"></div>
+
+  <div id="mainContent"></div>
+
+  <div class="keyboard-hints">
+    <kbd>←</kbd> <kbd>→</kbd> navigate &nbsp;·&nbsp;
+    <kbd>Space</kbd> flip &nbsp;·&nbsp;
+    <kbd>1</kbd> again &nbsp;·&nbsp;
+    <kbd>2</kbd> hard &nbsp;·&nbsp;
+    <kbd>3</kbd> good
+  </div>
+</div>
+
+<script>
+const CARDS = [
+  // Foundations
+  ["Foundations","Case","Regina v. Dudley and Stephens (1884)","Is hunger necessity a defense to murder?","<strong>Holding:</strong> No. Necessity does NOT justify murder unless the killing was in self-defense. Intentional killing of another is murder unless there is some legal justification. Necessity does not justify killing of an innocent bystander.<br><br><em>Sentenced to death, reduced to 6 months.</em>"],
+  ["Foundations","Case","Lawrence v. Texas (2003)","What does Lawrence establish about state criminal law and personal liberty?","<strong>Holding:</strong> TX statute criminalizing same-sex intimate conduct is unconstitutional under the Due Process Clause of the 14th Amendment. Bowers v. Hardwick overruled.<br><br><strong>Key principles:</strong><ul><li>Liberty protects a realm of personal autonomy</li><li>State cannot use criminal law to enforce a moral code on the whole of society</li><li>The statute furthered no legitimate state interest</li></ul>Criminal law is about drawing the line."],
+
+  // Actus Reus
+  ["Actus Reus","Case","Martin v. State (1944)","Rule: voluntary act requirement. Facts: police dragged drunk Martin onto highway, then charged him with appearing drunk in public.","<strong>Rule:</strong> A person placed involuntarily in a situation does not give rise to actus reus.<br><br><strong>Elements for actus reus:</strong><ol><li>A physical act (or culpable omission)</li><li>The act must be <strong>voluntary</strong></li></ol>Statute words signaling voluntariness: 'appears' and 'manifest.'"],
+  ["Actus Reus","Doctrine","Actus Reus — General Rule","What must prosecution show for actus reus?","<ol><li>Is there an act? Is it voluntary?</li><li>If a culpable <strong>omission</strong>, is there a legal duty?<ul><li>Statute-imposed</li><li>Status relationship</li><li>Contractual duty of care</li><li>Voluntarily assumed care + secluded other from aid</li></ul></li><li>If no actus reus → no crime</li></ol>"],
+  ["Actus Reus","Case","Jones v. United States (1962)","Rule: legal duty requirement for culpable omissions. Facts: Jones failed to provide care for a child who died.","<strong>Holding:</strong> Jury instruction erroneous because it failed to highlight that a legal duty must exist.<br><br><strong>Four sources of legal duty:</strong><ol><li>Statute imposes duty</li><li>Status relationship</li><li>Contractual duty to care</li><li>Voluntarily assumed care AND secluded other from rendering aid</li></ol>"],
+  ["Actus Reus","Case","People v. Newton (1970)","Can unconsciousness/reflex be a defense to homicide?","<strong>Holding:</strong> Defendant was entitled to a jury instruction on unconsciousness. Reflex/shock reaction after being shot may negate the voluntary-act requirement.<br><br><strong>Compared to Martin:</strong> Martin's involuntariness was external (police), Newton's was internal (biochemical). Requires medical expert testimony."],
+
+  // Mens Rea
+  ["Mens Rea","Case","Regina v. Cunningham (1957)","What does 'maliciously' mean? Facts: D stole a gas meter; gas leaked and partially asphyxiated neighbor.","<strong>Rule (Prof. Kenny's definition of malice):</strong><ol><li>An actual <strong>intention</strong> to do the particular kind of harm; OR</li><li><strong>Recklessness</strong> — foresaw that the particular kind of harm might be done and yet went on to do the act</li></ol>'Wickedness' alone is NOT enough."],
+  ["Mens Rea","Case","Regina v. Faulkner (1877)","Rule on transferred intent for malicious damage. Facts: sailor stole rum, lit match to see, burned down ship.","<strong>Rule:</strong> The act must be done in fact intentional and willful, OR the accused knew that the injury would be the probable result of his unlawful act, and yet did the act reckless of such consequence.<br><br>Intent from the rum theft does NOT automatically transfer to the fire."],
+  ["Mens Rea","Doctrine","Specific v. General Intent","Define specific intent, general intent, and why it matters.","<strong>Specific Intent:</strong> must be done with a specified further purpose in mind (subjective awareness required). Ex: Burglary = break + enter + intent to commit felony inside.<br><br><strong>General Intent:</strong> D can be convicted if he did an intentional act in ordinary speech; no awareness of attendant circumstances required.<br><br><strong>MPC equivalent:</strong> Purposely/Knowingly = specific; Recklessly/Negligently = general.<br><br><strong>Why it matters:</strong> mistake and intoxication defenses.<br>• Unreasonable mistake → only SI<br>• Reasonable mistake → SI and GI<br>• Neither works for strict liability"],
+  ["Mens Rea","Doctrine","MPC Mental States (§2.02)","List the four MPC culpability levels.","<ol><li><strong>Purposely</strong> — conscious object to engage in conduct / cause result</li><li><strong>Knowingly</strong> — aware conduct is of that nature / practically certain result will follow</li><li><strong>Recklessly</strong> — consciously disregards a substantial and unjustifiable risk (gross deviation)</li><li><strong>Negligently</strong> — should have been aware of a substantial and unjustifiable risk</li></ol>"],
+
+  // Mistake
+  ["Mistake","Case","Regina v. Prince (1875)","Rule on strict liability and moral-wrong principle. Facts: D took girl under 16 from father; reasonably believed she was 18.","<strong>Holding:</strong> When legislature clearly intends to omit a mens rea requirement, an honest mistake is NOT a defense.<br><br><strong>Elements:</strong><ol><li>Unlawfully</li><li>Take</li><li>Unmarried girl</li><li>Under 16</li><li>Against will of her father</li></ol><strong>Moral Wrong Principle (Bramwell):</strong> D acts at his peril when conduct is morally wrong."],
+  ["Mistake","Doctrine","Lesser Crime Principle","When does the lesser crime principle bar a mistake-of-fact defense?","A defendant <strong>cannot claim mistake of fact</strong> if, had the facts been as they believed, they would still have been committing a crime (albeit a less serious one).<br><br>Considers whether D knew he was committing Crime A when he actually committed (more serious) Crime B. An exception to the MPC mens rea requirement."],
+  ["Mistake","Case","Commonwealth v. Sherry (1982)","Is mistaken belief about consent a defense to rape?","<strong>Holding:</strong><ol><li>A rape victim is NOT required to use physical force to resist — any resistance demonstrating honest lack of consent is sufficient.</li><li>A defendant's mistaken belief that the victim had consented is NOT a defense.</li></ol><strong>Reasoning:</strong> Jury looks at objective view — acts, response, atmosphere — NOT D's subjective actual knowledge. D assumes the risk."],
+  ["Mistake","Case","Commonwealth v. Fischer (1998)","Is mistake of fact as to consent a defense to IDSI?","<strong>Holding:</strong> No. Mistake of fact as to consent is NOT a defense to involuntary deviate sexual intercourse.<br><br>Court refused to depart from Commonwealth v. Williams precedent despite the 1995 amendment adding 'intellectual, moral, emotional, or psychological force.'"],
+  ["Mistake","Case","Regina v. Smith (1974)","Rule on honest mistake about property ownership.","<strong>Rule:</strong> If a person does an act with the honest mistaken belief that the property is his own, then he is NOT indicted for destroying property.<br><br>This is a <strong>mistake of legal status</strong> (not pure fact)."],
+  ["Mistake","Case","Lambert v. California (1957)","When is mistake of law a good defense?","<strong>Rule:</strong> Good mistake-of-law defense ONLY when:<ol><li>Crime charged is a <strong>crime of omission</strong>; AND</li><li>A reasonable person would NOT have been put on notice of the existence of the crime</li></ol><strong>Reasoning:</strong> Passive conduct + failure of notice = Due Process violation."],
+
+  // Strict Liability
+  ["Strict Liability","Case","Morissette v. United States (1952)","When is mens rea required despite statute's silence?","<strong>Rule of Law:</strong><ol><li><strong>Presumption of Mens Rea:</strong> Where a federal statute codifies a common-law crime, court reads mens rea into the statute unless Congress explicitly states otherwise.</li><li><strong>Statutory Silence:</strong> Mere silence does NOT automatically turn a traditional crime into a strict liability offense.</li></ol>Common-law crimes (stealing, conversion) require mens rea; public-welfare/regulatory offenses do not."],
+  ["Strict Liability","Doctrine","Determining Strict Liability","How to determine if a statute creates strict liability.","<ol><li><strong>Words of the statute</strong></li><li><strong>Legislative history</strong> (e.g., 'stealing' = larceny = not SL)</li><li><strong>Maximum penalty</strong> — if only fine → looks like tort; MPC: no imprisonment for strict liability</li></ol><em>Judge Hand: 'Never take the words of a statute at face value.'</em>"],
+  ["Strict Liability","Case","United States v. Balint (1922)","Can a defendant be convicted under the Narcotic Act without proof of knowledge?","<strong>Holding:</strong> No scienter required. Generally scienter is a necessary element when statute is silent, but it is a question of legislative intent.<br><br>Narcotics Act has 'at their own peril' language indicating strict liability. Police power justification."],
+  ["Strict Liability","Case","United States v. Dotterweich (1943)","Strict liability for mislabeled pharmaceuticals.","<strong>Holding:</strong> No awareness of error required. Justified to protect lives/health in modern industrialism.<br><br>If liability is not imposed on those with better opportunity of informing themselves, innocents are harmed."],
+
+  // Legality
+  ["Legality","Doctrine","The Legality Principle","State the legality principle and its purposes.","<strong>Nulla poena sine lege</strong> — no punishment without law.<br><br><strong>Purposes:</strong><ol><li>Fair warning</li><li>Control discretion of police, prosecutors, juries</li><li>Bar retroactivity</li><li>Bar vagueness</li></ol>"],
+
+  // Homicide
+  ["Homicide","Case","Commonwealth v. Carroll (1963)","How much time is needed for premeditation?","<strong>Holding:</strong> A killing can be premeditated and deliberate even if the intent to kill is formed moments before the act. <strong>No specific duration required.</strong><br><br><strong>Elements of 1st degree murder:</strong><ol><li>Intentional killing of human being</li><li>Premeditation</li><li>Deliberation</li></ol><em>Criticism: risks collapsing 1° and 2° murder together.</em>"],
+  ["Homicide","Doctrine","1st Degree Murder — Anderson Factors","What evidence combines to show premeditation + deliberation?","Combination of these factors supports 1° murder:<ol><li><strong>Planning</strong> — prior planning activity</li><li><strong>Motive</strong> — ordering, ritual, desire, money, jealousy, hatred, revenge, fear, power</li><li><strong>Manner</strong> — the killing itself (e.g., shot to vital area)</li></ol>Strong planning alone can be enough.<br><br><strong>PA test:</strong> act-oriented.<br><strong>CA test:</strong> person-oriented (defendant-favoring)."],
+  ["Homicide","Doctrine","Degrees of Murder — Comparison","Compare Carroll, Arizona, and MPC approaches to premeditation.","<strong>Carroll (PA):</strong> time irrelevant; intent formed before act = premeditation.<br><br><strong>Arizona statute:</strong> premeditation = intent/knowledge that preceded killing by enough time to permit reflection. Actual reflection not required, but intent-to-kill alone insufficient.<br><br><strong>MPC:</strong> abandons premeditation entirely. Intentional killing = murder without degrees. Sentencing handles aggravating factors."],
+  ["Homicide","Case","Commonwealth v. Young","Is intent to kill alone enough for premeditation?","<strong>Holding:</strong> No. Intent to kill alone does not automatically establish premeditation. There must be evidence supporting deliberation beyond the act itself.<br><br>Carroll did not eliminate the distinction between 1st and 2nd degree."],
+  ["Homicide","Case","Commonwealth v. Malone (1946)","Murder without intent to kill? Facts: 17-year-old played Russian Roulette, killed 13-year-old.","<strong>Holding:</strong> Specific intent to kill is NOT essential. <strong>Malice</strong> distinguishes murder from other killings.<br><br>When an individual commits an act of <strong>gross recklessness</strong> which he must reasonably anticipate death would likely result, he exhibits hardness of heart/cruelty = implied malice.<br><br><strong>Three ways to get 2nd degree murder:</strong><ol><li>Intent to kill without P+D</li><li>Recklessness + depraved disregard for human life</li><li>Intent to inflict grievous bodily harm → death results</li></ol>"],
+
+  // Manslaughter
+  ["Manslaughter","Case","Girouard v. State (1991) — Majority Rule","Can words alone be adequate provocation?","<strong>Holding:</strong> No. Words alone are NOT adequate provocation unless accompanied by conduct indicating present intent/ability to cause bodily harm.<br><br><strong>Well-recognized categories:</strong><ol><li>Extreme assault or battery</li><li>Mutual combat</li><li>Defendant's illegal arrest</li><li>Injury or serious abuse of a close relative</li><li>Sudden discovery of spouse's adultery</li></ol>Outside these categories → not sent to jury."],
+  ["Manslaughter","Case","Maher v. People (1862) — Minority/Modern Rule","Elements for voluntary manslaughter via heat of passion.","If the intentional killing was:<ol><li>Committed under the influence of <strong>passion</strong> or in heat of blood</li><li>Produced by an <strong>adequate/reasonable provocation</strong></li><li>Before a <strong>reasonable time has elapsed</strong> for the blood to cool</li><li>Resulting in <strong>temporary excitement</strong> (control of reason disturbed)</li></ol>Then → Voluntary Manslaughter.<br><br><em>Anything with natural tendency to provoke an ordinary person goes to jury.</em>"],
+  ["Manslaughter","Doctrine","Provocation — 4-Part Test (HOP)","The 4-part heat-of-passion test (Maher approach).","<ol><li><strong>RP → HOP:</strong> Would a reasonable person have been provoked into HOP? (objective)</li><li><strong>D → HOP:</strong> Was this D actually provoked into HOP? (subjective)</li><li><strong>RP → cooled off:</strong> Would RP have cooled off by time of killing? (objective)</li><li><strong>D → cooled off:</strong> Did this D actually cool off? (subjective)</li></ol>All four required. Girouard (majority): judge can keep from jury. Maher (minority): question for jury."],
+
+  // Involuntary MS
+  ["Involuntary MS","Case","Commonwealth v. Welansky (1944)","Standard for involuntary manslaughter via recklessness. Facts: nightclub fire, blocked exits.","<strong>Standard — Wanton/Reckless Conduct:</strong> Grave danger to others must have been apparent, AND D chose to run the risk rather than alter his conduct.<br><br><strong>Reasonable Man Test:</strong> Even 'stupid' or 'heedless' Ds cannot escape if an ordinary person would have realized the danger.<br><br><strong>Intent:</strong> refers to the intentional act/omission, NOT the resulting harm.<br><br>Wanton/reckless is a <strong>difference in kind</strong>, not just degree, from negligence."],
+  ["Involuntary MS","Case","State v. Williams (1971)","Can ordinary negligence support manslaughter? Facts: parents failed to get medical care, child died.","<strong>Holding (WA at the time):</strong> Ordinary/simple negligence is sufficient for statutory manslaughter.<br><br><strong>Legal duty:</strong> Parents have a duty to obtain medical assistance for their children.<br><br><strong>Standard:</strong> Ordinary caution — what a reasonable person of reasonable prudence would do. Objective standard, regardless of D's good faith or ignorance."],
+
+  // Felony Murder
+  ["Felony Murder","Case","Regina v. Serne (1887)","Stephen J.'s definition of felony murder. Facts: D burned own house with sons inside for insurance.","<strong>Malice aforethought includes:</strong><ol><li>Any act known to be <strong>dangerous to life</strong> and likely in itself to cause death, done for the purpose of committing a felony which causes death</li><li>An act done with knowledge that the act will probably cause the death of some person</li></ol>NOT 'any act' — must be dangerous to life."],
+  ["Felony Murder","Doctrine","Felony Murder — Basic Formula","Formula and mens rea structure of felony murder.","<strong>Felony + Unintentional Killing = Felony Murder</strong><br><br><strong>Actus reus:</strong> the unintentional killing<br><strong>Mens rea:</strong> transferred from the felony to the killing (transferred intent)<br><br><strong>Eligible felonies (BREAKRSS):</strong> Burglary, Robbery, Escape, Arson, Kidnapping, Rape, Sodomy, Serious Sex Crimes.<br><br>~50% of statutes enumerate; ~50% require 'inherently dangerous.'"],
+  ["Felony Murder","Doctrine","Felony Murder — Limiting Doctrines","List the major limitations on felony murder.","<ol><li><strong>Inherently dangerous felonies</strong> / BREAKRSS list (100%)</li><li><strong>Independent felonious purpose</strong> — merger doctrine (100%)</li><li><strong>Agency limitation</strong> — killing by felon/co-felon only (~75%)</li><li><strong>Proximate cause</strong> (100%)</li><li><strong>Time period</strong> of the felony (commission / flight)</li><li><strong>In furtherance</strong> of the crime</li><li><strong>Who is killed</strong> — many exclude co-felons (~&lt;10%)</li><li><strong>Affirmative defense</strong> (NY 4-part test)</li></ol>"],
+  ["Felony Murder","Doctrine","NY Felony-Murder Affirmative Defense","The 4-part affirmative defense to felony murder (NY-style).","Defendant must show:<ol><li>Was NOT armed with a deadly weapon</li><li>Had NO reasonable ground to believe any other participant was armed</li><li>Had NO reasonable ground to believe any other participant intended acts likely to cause death</li><li>Did NOT commit the killing, solicit, request, command, importune, cause, or aid the commission</li></ol>"],
+  ["Felony Murder","Case","People v. Phillips (1966)","Facts: chiropractor convinced parents to forgo cancer surgery, girl died. Did felony-murder apply?","<strong>Holding:</strong> Felony-murder instruction should NOT have been given.<br><br><strong>Rule:</strong> The felony must be <strong>inherently dangerous to life</strong> (CA test). Grand theft medical fraud is not inherently dangerous in the abstract.<br><br>Doctrine should be narrow — 'deserves no extension beyond its required application.'<br><br>On remand: charged with 2° murder (conscious disregard for human life)."],
+  ["Felony Murder","Case","People v. Burton (1971) — Merger Doctrine","When does a felony merge with the homicide?","<strong>Rule:</strong> A felony that is an <strong>integral part</strong> of the homicide (e.g., assault with deadly weapon committed solely to cause injury) <strong>merges</strong> and cannot support FM.<br><br>A felony with an <strong>independent felonious purpose</strong> (e.g., robbery — purpose is theft) does NOT merge and CAN support FM.<br><br><strong>Tests:</strong><ul><li><strong>Included-in-fact:</strong> Does the felony describe the same conduct as the killing?</li><li><strong>Independent-purpose:</strong> Did the felony have a purpose separate from injuring/killing?</li></ul>"],
+  ["Felony Murder","Case","State v. Canola (1977) — Agency Theory","Can D be convicted of FM when a victim kills a co-felon?","<strong>Holding:</strong> No. Under the <strong>agency theory</strong>, FM liability attaches only when the killing is committed by the felon or a co-felon acting in furtherance of the felony.<br><br>Deaths caused by victims/police resisting the crime do NOT trigger FM.<br><br><strong>Contrast:</strong> <em>Proximate cause theory</em> — any death proximately resulting from the felony triggers FM (rejected by this court)."],
+  ["Felony Murder","Case","People v. Stamp (1969)","Eggshell victim rule in felony murder.","<strong>You take the victim as you find them.</strong><br><br>D burglarized business and held victim at gunpoint; victim had heart attack and died due to poor health. Court held Ds strictly liable for killing committed in the course of felony."],
+
+  // Attempt
+  ["Attempt","Case","People v. Rizzo (1927) — Proximity Test","Test for attempt actus reus. Facts: Ds drove around looking for Rao to rob; never found him.","<strong>Rule:</strong> An act done with intent to commit a crime and <strong>tending but failing</strong> to effect its commission is an attempt.<br><br><strong>'Tending'</strong> = the act/s must <strong>come or advance very near</strong> to the accomplishment of the intended crime (dangerous proximity).<br><br><strong>Holding:</strong> Rizzo's acts did NOT come dangerously near — no attempt. Rao wasn't even present."],
+  ["Attempt","Case","United States v. Jackson (1977) — MPC Substantial Step","MPC test for attempt. Facts: Ds cased bank, aborted June 14, returned June 21 with weapons/masks.","<strong>Rule (MPC §5.01):</strong> The act must be a <strong>substantial step</strong> in a course of conduct designed to accomplish a criminal result AND must be <strong>strongly corroborative</strong> of criminal purposes.<br><br>Reconnaissance + possession of tools can each independently constitute a substantial step when strongly corroborative.<br><br><em>Note: bar is lower than Rizzo's proximity test.</em>"],
+  ["Attempt","Doctrine","Attempt — Actus Reus Tests","List the major tests for attempt actus reus.","<ol><li><strong>Equivocality Test</strong> (King v. Barker) — act must speak for itself as criminal</li><li><strong>People v. Miller</strong> — direct act toward commission; preparation insufficient</li><li><strong>Dangerous Proximity</strong> (Rizzo) — how close to completion</li><li><strong>Substantial Step</strong> (MPC / Jackson) — strongly corroborative of intent</li><li><strong>Last Step</strong> (Eagleton) — final step required</li><li><strong>First Step</strong> (White) — first step can suffice</li><li><strong>Seriousness</strong></li></ol>Today: mainly <strong>Substantial Step</strong> and <strong>Seriousness</strong>."],
+  ["Attempt","Case","Smallwood v. State (1996)","Mens rea for attempt. Facts: HIV-positive D had unprotected sex knowing of his status.","<strong>Holding:</strong> Attempted murder and assault with intent to murder require proof of <strong>specific intent to kill</strong>.<br><br>Intent may be inferred from:<ol><li>D knew his weapon was deadly</li><li>D knew he was hurting the other person</li></ol>BUT magnitude of risk matters — D needs specific action demonstrating intent that excludes other possible intents. Exposure to risk ≠ intent to kill."],
+  ["Attempt","Doctrine","Attempt Mens Rea — Specific Intent Rule","Does attempt require specific intent even for general-intent or reckless crimes?","<strong>General Rule:</strong> Attempt requires <strong>specific intent (purpose)</strong> to bring about the prohibited result — even if completed crime only needs recklessness/negligence.<ul><li>No <strong>attempted involuntary manslaughter</strong></li><li>Most states reject <strong>attempted felony-murder</strong></li><li><strong>Attempted voluntary manslaughter</strong> is widely recognized</li></ul><strong>MPC §5.01:</strong> purpose to engage in conduct + purpose/belief result will occur + substantial step."],
+  ["Attempt","Doctrine","Abandonment Defense (MPC §5.01(4))","Elements of the abandonment/renunciation defense.","Circumstances manifesting a <strong>voluntary AND complete renunciation</strong> of the criminal purpose.<br><br><strong>Not voluntary if:</strong><ul><li>Motivated by fear of detection/apprehension</li><li>Obstacle made commission more difficult</li><li>Postponed to more advantageous time</li></ul><strong>Not complete if:</strong> D merely redirects to similar victim/target."],
+
+  // Solicitation
+  ["Solicitation","Case","State v. Davis (1928)","Does solicitation + detailed planning constitute attempted murder?","<strong>Holding:</strong> No. Solicitation alone, even with payment and detailed planning, does not constitute an overt act for attempt.<br><br>Mere solicitation, unaccompanied by an act moving directly toward commission, is preparation only, not attempt."],
+  ["Solicitation","Case","United States v. Church (1989)","When does hiring a hit man become attempt?","<strong>Holding:</strong> Yes, attempt. When D did everything possible short of the murder itself — payment, maps, photos, approved weapon, provided alibi — his conduct was a substantial step strongly corroborating intent.<br><br>Impossibility (hit man was undercover agent) is not a defense."],
+
+  // Impossibility
+  ["Impossibility","Doctrine","Impossibility — Categories","Name the impossibility categories and whether each is a good defense.","<strong>Traditional approach:</strong><ul><li>Pure Legal → Good defense</li><li>Mixed F/L → Good defense</li><li>Pure Factual → Bad defense</li></ul><strong>MPC approach:</strong><ul><li>Pure Legal → Good defense</li><li>Mixed F/L → Bad defense</li><li>Pure Factual → Bad defense</li></ul><strong>Maybe a 4th:</strong> Inherent impossibility (voodoo) — sometimes good defense.<br><br>Key cases: Jaffe (legal), Oviedo/Berrigan (mixed F/L), Dlugash/Rojas (MPC rejects)."],
+  ["Impossibility","Case","People v. Jaffe (1906)","Facts: D tried to buy cloth he thought was stolen, but it had been restored to owners.","<strong>Holding:</strong> NOT guilty of attempt. Receiving stolen property requires <strong>knowledge</strong> that goods were stolen; you cannot 'know' something that is not true.<br><br><strong>Three elements:</strong><ol><li>The act</li><li>Intent</li><li>Knowledge of an existing condition (missing here)</li></ol><strong>Classic legal impossibility — good defense.</strong>"],
+  ["Impossibility","Case","People v. Dlugash (1977)","Facts: Ds shot V who may have already been dead.","<strong>Holding:</strong> Can be convicted of attempted murder.<br><br>NY Penal Law §110.10 (MPC-style): it is <strong>no defense</strong> that the crime was factually or legally impossible if it could have been committed had circumstances been as D believed them to be.<br><br><strong>MPC abolishes the impossibility defense.</strong>"],
+  ["Impossibility","Case","United States v. Berrigan (1973)","Legal impossibility as a defense in the federal system.","<strong>Facts:</strong> D smuggled prison letters, but warden actually knew.<br><br><strong>Holding:</strong> Reversed. Government could not prove the external objective situation the statute required (warden lacked knowledge).<br><br><strong>Four elements of legal impossibility:</strong><ol><li>Motive/desire/expectation to violate the law</li><li>Intention to perform physical act</li><li>Performance of act</li><li>Consequence does not amount to crime</li></ol>"],
+  ["Impossibility","Case","United States v. Oviedo (5th Cir.)","Middle-ground approach to impossibility.","<strong>Facts:</strong> D sold procaine claiming it was heroin.<br><br><strong>Holding:</strong> Conviction reversed. Court rejected legal/factual distinction as unhelpful.<br><br><strong>New test:</strong> the objective acts performed, standing alone without reliance on D's mens rea, must independently mark the conduct as criminal."],
+
+  // Complicity
+  ["Complicity","Doctrine","Accomplice Liability — Elements","Mens rea and actus reus of accomplice liability.","<strong>Mens Rea:</strong> Intent that the target crime be committed.<br><br><strong>Actus Reus:</strong> Aiding, abetting, helping, or facilitating.<br><br><strong>Accessory after the fact (separate, lesser crime):</strong><ol><li>Assists a person who has committed the crime</li><li>After the crime was committed</li><li>With knowledge the person committed the crime</li><li>With intent to help avoid arrest/punishment</li></ol>"],
+
+  // Conspiracy
+  ["Conspiracy","Doctrine","Conspiracy — Elements","Elements of conspiracy and how it ends.","<strong>Definition (Holmes):</strong> Partnership in crime — agreement between 2+ people to commit a crime.<br><br><strong>Mens Rea:</strong> Intent to agree + intent that target crime be committed.<br><strong>Actus Reus:</strong> Agreement + <strong>overt act</strong> (below attempt threshold).<br><br><strong>Conspiracy ends when:</strong><ol><li>Crime committed</li><li>Statute of limitations runs (usually 5 years from last overt act)</li><li><strong>Withdrawal</strong> — voluntary, complete, AND informs all co-conspirators</li></ol>"],
+  ["Conspiracy","Case","Pinkerton v. United States (1946)","Vicarious liability for co-conspirators.","<strong>Rule:</strong> A co-conspirator is vicariously liable for substantive crimes committed by fellow conspirators if the crime was:<ol><li>Within the <strong>scope</strong> of the conspiracy; OR</li><li><strong>Reasonably foreseeable</strong> consequence of the unlawful agreement; AND</li><li>Committed <strong>in furtherance</strong> of the conspiracy</li></ol>No direct participation required. Conspiracy continues until terminated or D withdraws."],
+  ["Conspiracy","Case","Krulewitch v. United States (1949)","Hearsay exception and implied conspiracy to conceal.","<strong>Holding:</strong> Reversed. Hearsay statements made after the indicted conspiracy offense was already completed are NOT admissible as made 'in furtherance' of the charged conspiracy.<br><br>Rejects implicit ongoing conspiracy to conceal as too broad.<br><br><em>Jackson concurrence: conspiracy is 'partnership in crime' — too expansive a doctrine.</em>"],
+  ["Conspiracy","Case","People v. Lauria (1967)","When does a supplier become a co-conspirator?","<strong>Rule:</strong> Both <strong>knowledge</strong> AND <strong>intent</strong> must be proved. Knowledge alone is not enough.<br><br><strong>Intent inferable from:</strong><ol><li><strong>Stake in the venture</strong> (e.g., inflated charges)</li><li><strong>No legitimate use</strong> for goods/services</li><li><strong>Disproportionate volume</strong> of business with criminal buyer</li></ol>For <strong>misdemeanors:</strong> knowledge alone insufficient.<br>For <strong>serious felonies:</strong> knowledge alone may suffice."],
+  ["Conspiracy","Case","United States v. Feola (1975)","Must co-conspirators know jurisdictional facts?","<strong>Holding:</strong> No. Government does not need to prove D knew the victim was a federal officer for either assault (§111) OR conspiracy to commit that offense (§371).<br><br><strong>Rule:</strong> When substantive offense does not require knowledge of jurisdictional facts, that knowledge is also not required for conspiracy."],
+  ["Conspiracy","Doctrine","Single vs. Multiple Conspiracies — Test","Two-part test for single wheel/chain conspiracy.","For a wheel/chain arrangement to be a <strong>single</strong> conspiracy (not multiple):<ol><li>Each spoke/link <strong>knows that other spokes/links exist</strong> (precise identity not required); AND</li><li>The spokes/links have and realize a <strong>community of interest</strong></li></ol>Apply to each defendant.<br><br>Key cases: Kotteakos (wheel w/o rim = multiple), Bruno (chain = single), Anderson (wheel with knowledge = single)."],
+  ["Conspiracy","Case","Kotteakos v. United States (1946)","Facts: 32 Ds got fraudulent FHA loans through Brown (broker). Were all one conspiracy?","<strong>Holding:</strong> Multiple separate conspiracies, not one. 'Spokes without a rim.'<br><br><strong>Rule:</strong> Common central figure (hub) alone does NOT convert separate conspiracies into one. Needs a <strong>rim</strong> — connection among spokes.<br><br>Trying everyone together was reversible error."],
+  ["Conspiracy","Case","United States v. Bruno (1939)","Facts: smugglers → middlemen → retailers in narcotics chain. How many conspiracies?","<strong>Holding:</strong> ONE conspiracy.<br><br>Each participant at one end of the chain knew the unlawful business would not stop with their buyers, and those at the other end knew it had not begun with their sellers. Success of each part depended on the whole."],
+  ["Conspiracy","Case","United States v. Alvarez (5th Cir., en banc)","What conduct shows one joined a conspiracy?","<strong>Holding:</strong> Conviction affirmed. The government need not prove D knew all details; knowledge of the essential nature of the conspiracy is enough.<br><br>D's nodded assurance to the undercover agent that he would be at the offloading site, combined with his active role, was sufficient.<br><br><em>Dissent: a nod and a smile should not send a man to prison.</em>"],
+  ["Conspiracy","Doctrine","Wharton's Rule","What is Wharton's Rule and when does it bar conspiracy charges?","Where a substantive crime <strong>necessarily involves more than 1 person</strong>, the government must charge the substantive crime, NOT conspiracy.<br><br><strong>Examples:</strong> adultery, incest, bigamy, bribery, receiving stolen property, dueling.<br><br><strong>Exception:</strong> If more than the minimum number of participants → conspiracy charges OK against all.<br><br><strong>MPC rejects Wharton's Rule.</strong>"],
+  ["Conspiracy","Case","Gebardi v. United States (1932)","Can a person exempted from the substantive crime conspire to violate it?","<strong>Holding:</strong> No. Where Congress deliberately leaves a participant's consent unpunished under the substantive statute, conspiracy cannot be used to punish them.<br><br><strong>Rule (MPC §5.04(2)):</strong> A person cannot be convicted of conspiracy when there is a recognized rule of justice or policy exempting him from prosecution for the substantive crime."],
+  ["Conspiracy","Case","Garcia v. State (1979) — Unilateral Conspiracy","Can D conspire with a feigning police informant?","<strong>Holding:</strong> Yes, under Indiana's MPC-based statute. The unilateral concept applies.<br><br>Under the MPC approach, the definition focuses on the individual D's culpability; guilt of the other party is irrelevant.<br><br><strong>Contrast:</strong> bilateral approach requires genuine meeting of minds; if the only 'co-conspirator' was feigning, there is no conspiracy."],
+  ["Conspiracy","Case","United States v. Alvarez (1985)","Pinkerton liability for unintended but foreseeable crimes.","<strong>Facts:</strong> drug deal shoot-out killed federal agent; Ds who didn't shoot convicted of 2° murder.<br><br><strong>Holding:</strong> Convictions affirmed. Murder was reasonably foreseeable given size of drug deal and presence of weapons.<br><br><strong>Two factors:</strong><ol><li>Sale of large quantity of cocaine</li><li>Conspirators must have known weapons would be present and used if necessary</li></ol>Limited to non-minor participants with actual knowledge."],
+
+  // Self-Defense
+  ["Self-Defense","Doctrine","Self-Defense — 5 Elements","List the general elements of self-defense.","<ol><li>D was resisting the <strong>present or imminent</strong> use of unlawful force</li><li>D used <strong>no more force than reasonably necessary</strong></li><li>Deadly force only against deadly force (<strong>proportionality</strong>)</li><li>D was <strong>not the initial aggressor</strong>, UNLESS:<ul><li>D was a non-deadly aggressor confronted with unexpected deadly force</li><li>D withdrew and the other continued to attack</li></ul></li><li>D could NOT have <strong>retreated safely</strong></li></ol>Some jurisdictions eliminate #5 (stand your ground) or soften #2."],
+  ["Self-Defense","Doctrine","Imperfect Self-Defense","What is imperfect self-defense and what does it get you?","If D's belief that force was necessary is <strong>honest but unreasonable</strong> (fails element #2), D gets a <strong>partial defense</strong>.<br><br>Result: conviction reduced from murder to <strong>voluntary manslaughter</strong> (compromise verdict)."],
+  ["Self-Defense","Case","State v. Norman (1989)","Battered woman killed sleeping husband — perfect self-defense?","<strong>Holding:</strong> No. Not entitled to self-defense instruction because no <strong>imminent threat</strong> at time of killing.<br><br><strong>'Imminent'</strong> = immediate danger that must be instantly met and cannot be guarded against by calling for assistance.<br><br>Subjective belief that harm is 'inevitable' ≠ imminent.<br><br><em>Dissent (Martin): For battered wife with no window of safety, next attack is imminent.</em>"],
+  ["Self-Defense","Case","Commonwealth v. Sands (2001)","Imminence requirement for battered woman killing sleeping husband.","<strong>Holding:</strong> No self-defense instruction warranted.<br><br>Even though D reasonably believed she was in danger, evidence failed to reveal an <strong>overt act</strong> by husband presenting imminent danger at the precise moment of the shooting.<br><br>Like Norman: nonconfrontational killing defeats imminence."],
+  ["Self-Defense","Doctrine","MPC Self-Defense Standard","How does the MPC modify the imminence requirement?","<strong>MPC §3.04(1):</strong> Self-defense available if D reasonably believed defensive force was <strong>'immediately necessary'</strong> — NOT 'imminent.'<br><br>Shifts inquiry from <em>when</em> the threat will materialize to <em>whether the defensive response is needed now</em>.<br><br>Significantly more favorable to battered defendants."],
+  ["Self-Defense","Doctrine","Battered Woman Syndrome — Reasonableness","Three approaches to reasonableness with BWS.","<strong>Objective end</strong> (People v. Humphrey/Romero CA): Reasonable person standard; BWS informs perspective but standard stays objective.<br><br><strong>Middle</strong> (State v. Edwards MO): Reasonable person suffering from BWS; defendant's syndrome incorporated.<br><br><strong>Subjective end</strong> (State v. Leidholm ND): Defendant's own subjective impressions tested for reasonableness."],
+
+  // Necessity
+  ["Necessity","Case","United States v. Schoon (1992)","Necessity defense elements. Facts: Ds protested in IRS office over El Salvador policy.","<strong>Necessity (Choice of Evils) — 4 elements:</strong><ol><li>Faced with a <strong>choice of evils</strong> and chose the lesser</li><li>Acted to prevent <strong>imminent harm</strong></li><li>Reasonably anticipated a <strong>direct causal relationship</strong> between conduct and harm to be averted</li><li>Had <strong>no legal alternatives</strong></li></ol><strong>Conjunctive</strong> — failure on any element defeats the defense.<br><br><strong>Rule:</strong> Necessity is categorically unavailable in indirect civil disobedience."],
+  ["Necessity","Doctrine","Necessity — In-Class Elements","Professor Robbins' necessity elements.","<ol><li>Harm avoided > harm committed</li><li>No legal third alternative to violating the law</li><li>Harm must be <strong>imminent</strong>, not speculative/future</li><li>Situation NOT brought on by D's recklessness</li></ol><strong>Cannot</strong> have successful necessity for taking the life of an innocent person (per Dudley and Stephens).<br><br>Rarely successful, but examples: pharmacist/heart attack, medical marijuana/glaucoma."],
+
+  // Duress
+  ["Duress","Doctrine","Duress — Common Law Elements","Common-law elements of duress.","<ol><li>A threat by a <strong>third person</strong></li><li>That produces a <strong>reasonable fear</strong> in D</li><li>That he/she will suffer <strong>immediate or imminent death or serious bodily injury</strong></li></ol><strong>Traditional limits:</strong><ul><li>Threat aimed at D (or close relative)</li><li>D had duty to escape if possible</li><li>No defense to murder</li></ul>"],
+  ["Duress","Case","State v. Toscano (1977) — MPC Approach","MPC duress standard.","<strong>MPC §2.09 / Toscano Rule:</strong> Duress is a defense if D engaged in conduct because he was coerced by use of, or threat to use, unlawful force against his person or another, which <strong>a person of reasonable firmness in his situation would have been unable to resist</strong>.<br><br>Eliminates requirements that threat be: death/SBI, immediate, aimed at D, non-capital crime.<br><br><strong>MPC:</strong> defense to all crimes including murder.<br><strong>NJ:</strong> reduces murder to manslaughter."],
+  ["Duress","Doctrine","Necessity vs. Duress","Compare necessity and duress.","<strong>Necessity (Justification — §3.02):</strong><ul><li>D's choice was <strong>good</strong> — the lesser evil</li><li>Source: natural disaster OR human threat</li><li>Acquitted — blameless</li></ul><strong>Duress (Excuse — §2.09):</strong><ul><li>D's choice not necessarily good, but <strong>understandable</strong></li><li>Source: another person's 'do-it-or-else' command</li><li>Less blameworthy — may reduce to lesser crime</li></ul>"],
+
+  // Intoxication
+  ["Intoxication","Doctrine","Voluntary Intoxication — Rule","When is voluntary intoxication a defense?","Voluntary intoxication is <strong>NOT a complete defense</strong>, but may negate mens rea for <strong>specific intent</strong> crimes.<br><br><strong>Voluntary:</strong> works for SI (except statutory rape), not GI or SL.<br><strong>Involuntary:</strong> works for SI and GI, not SL.<br><br><em>Hood: assault w/deadly weapon = general intent (no defense).</em>"],
+  ["Intoxication","Doctrine","MPC Intoxication (§2.08)","MPC approach to voluntary intoxication.","<ul><li><strong>Purpose / Knowledge:</strong> voluntary intoxication admissible to negate</li><li><strong>Recklessness:</strong> if D was unaware of risk <em>because of</em> voluntary intoxication → this unawareness is <strong>immaterial</strong> (the 'recklessness equation')</li><li><strong>Negligence:</strong> judged against sober person standard</li></ul>Rationale: becoming drunk is functionally equivalent to consciously disregarding risk."],
+  ["Intoxication","Doctrine","Involuntary Intoxication","When is intoxication involuntary (and a defense)?","Involuntary intoxication is a defense when caused by:<ul><li><strong>Fraud</strong></li><li><strong>Mistake</strong></li><li><strong>Force</strong></li></ul>Treats D as though intoxication didn't happen for mens rea purposes."],
+  ["Intoxication","Case","Roberts v. People (1870)","Early rule on intoxication negating specific intent.","<strong>Rule:</strong> If the defendant's mental faculties were so far overcome by intoxication that he was not conscious of what he was doing, or could not entertain the intent, then he lacked the mens rea for the charged offense.<br><br>But D must be presumed to have intended the obscuration of his own faculties through voluntary intoxication."],
+  ["Intoxication","Case","People v. Hood (1969)","Voluntary intoxication and general-intent assault.","<strong>Holding:</strong> Voluntary intoxication evidence is inadmissible to negate intent for assault with a deadly weapon.<br><br><strong>Rule:</strong> Specific/general intent distinction is a judicial compromise. Alcohol distorts judgment and relaxes controls on aggression — would be anomalous to allow intoxication to relieve responsibility for crimes typically committed that way."],
+
+  // Insanity
+  ["Insanity","Doctrine","M'Naghten Rule (1843)","State the M'Naghten test.","At the time of the act, D was laboring under such a <strong>defect of reason</strong>, from <strong>disease of the mind</strong>, as:<ol><li>NOT to know the <strong>nature and quality</strong> of the act; OR</li><li>If he did know it, that he did NOT know what he was doing was <strong>wrong</strong></li></ol><strong>'Wrong'</strong>: refers to the specific act charged.<ul><li>Legal wrongfulness = <strong>strict</strong> M'Naghten</li><li>Moral wrongfulness = <strong>loose</strong> M'Naghten</li></ul><em>Criticism: purely cognitive, no volitional prong.</em>"],
+  ["Insanity","Doctrine","Irresistible Impulse Test","What does the irresistible impulse test add to M'Naghten?","Adds a <strong>volitional (control)</strong> element to M'Naghten:<ul><li>D's governing power of mind was so destroyed that actions were beyond his control</li></ul><strong>What counts as loss of control:</strong><ul><li><strong>Complete</strong> loss — strict version</li><li><strong>Less than complete</strong> — loose version</li></ul>"],
+  ["Insanity","Doctrine","Durham Rule (Product Test)","What was the Durham rule?","D is not responsible if the act was the <strong>product</strong> of a mental disease or defect.<br><br>Even slight mental disorder could suffice.<br><br><strong>Status:</strong> rejected/overruled everywhere except NH. Used in DC (overruled), Maine (abandoned), NH (still in effect).<br><br>Replaced by ALI/MPC test in most jurisdictions."],
+  ["Insanity","Doctrine","MPC/ALI Test (§4.01)","State the MPC insanity test.","A person is not responsible if, at the time of the conduct, as a result of mental disease or defect, he lacked <strong>substantial capacity</strong> either to:<ol><li><strong>Appreciate</strong> the criminality (wrongfulness) of his conduct; OR</li><li><strong>Conform</strong> his conduct to the requirements of law</li></ol><strong>Innovations:</strong> 'substantial capacity' (not total), 'appreciate' (not just 'know'), includes volitional prong.<br><br>Abandoned by many states post-Hinckley (1982)."],
+  ["Insanity","Doctrine","Federal Insanity Standard (Post-Hinckley)","Federal insanity test after the 1984 Comprehensive Crime Control Act.","<strong>18 U.S.C. §17(a):</strong> Affirmative defense requiring D to prove that, due to a <strong>severe</strong> mental disease or defect, he was unable to <strong>appreciate the nature and quality or the wrongfulness</strong> of his acts.<ul><li>NO volitional prong</li><li>D bears burden of proof</li><li>Narrower than M'Naghten in some respects</li></ul>"],
+  ["Insanity","Doctrine","Competence to Stand Trial (Dusky)","Standard for competence to stand trial.","A defendant is incompetent if, due to mental disease or defect, he lacks the capacity to:<ol><li><strong>Understand</strong> the proceedings against him; AND</li><li><strong>Assist</strong> in his own defense with a reasonable degree of rational understanding</li></ol>Separate from insanity — looks at time of trial, not time of offense.<br><br><em>Sell v. United States (2003): forced medication to restore competence only rarely permitted.</em>"],
+  ["Insanity","Case","Blake v. United States (5th Cir. 1969)","Which insanity standard: Davis or MPC?","<strong>Holding:</strong> Adopts MPC §4.01.<br><br>Davis standard used absolute 'completely destroyed' language and was too narrow. MPC 'substantial capacity' and 'appreciate' reflect clinical reality — total incapacity is rare.<br><br>Includes both cognitive (appreciate wrongfulness) and volitional (conform conduct) prongs."],
+  ["Insanity","Doctrine","Insanity Timing — When is it Relevant?","At what stages of a criminal case does insanity matter?","<ol><li><strong>Actus Reus</strong> (class focus)</li><li><strong>Arraignment</strong> — incompetent to proceed?</li><li><strong>Trial</strong> — unable to understand proceeding or participate in defense?</li><li><strong>Allocution</strong> — brought to be sentenced</li><li><strong>Execution of sentence</strong> — cannot execute D until aware and competent</li></ol>If D satisfies insanity defense: not acquitted nor convicted — found not guilty, sent to state hospital for criminally insane."],
+];
+
+// Convert to objects
+const cards = CARDS.map((c, i) => ({
+  id: i,
+  topic: c[0],
+  type: c[1],
+  title: c[2],
+  front: c[3],
+  back: c[4],
+}));
+
+const TOPICS = [...new Set(cards.map(c => c.topic))];
+
+// State
+const STORAGE_KEY = 'crimlaw_flashcards_v1';
+const THEME_KEY = 'crimlaw_theme';
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return {};
+    return JSON.parse(raw);
+  } catch (e) { return {}; }
+}
+function saveProgress(p) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(p)); } catch(e) {}
+}
+
+const state = {
+  mode: 'study',          // 'study' | 'flip' | 'browse'
+  activeTopic: 'All',
+  search: '',
+  flipIndex: 0,
+  flipped: false,
+  studyQueue: [],
+  studyCurrent: null,
+  studyAnswered: 0,
+  progress: loadProgress(), // { [cardId]: { box: 0-4, nextDue: timestamp, seen: n } }
+};
+
+// Theme
+function applyTheme(theme) {
+  if (theme === 'dark') document.body.setAttribute('data-theme', 'dark');
+  else document.body.removeAttribute('data-theme');
+  document.getElementById('themeToggle').textContent = theme === 'dark' ? '☀' : '◐';
+}
+const savedTheme = localStorage.getItem(THEME_KEY) || 'light';
+applyTheme(savedTheme);
+document.getElementById('themeToggle').addEventListener('click', () => {
+  const cur = document.body.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  const next = cur === 'dark' ? 'light' : 'dark';
+  localStorage.setItem(THEME_KEY, next);
+  applyTheme(next);
+});
+
+// Filters
+function filteredCards() {
+  return cards.filter(c => {
+    if (state.activeTopic !== 'All' && c.topic !== state.activeTopic) return false;
+    if (state.search) {
+      const q = state.search.toLowerCase();
+      if (!c.title.toLowerCase().includes(q) &&
+          !c.front.toLowerCase().includes(q) &&
+          !c.back.toLowerCase().includes(q) &&
+          !c.topic.toLowerCase().includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+function renderTopicFilters() {
+  const el = document.getElementById('topicFilters');
+  const options = ['All', ...TOPICS];
+  el.innerHTML = options.map(t => {
+    const count = t === 'All' ? cards.length : cards.filter(c => c.topic === t).length;
+    const active = t === state.activeTopic ? 'active' : '';
+    return `<span class="chip ${active}" data-topic="${t}">${t}<span class="count">${count}</span></span>`;
+  }).join('');
+  el.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      state.activeTopic = chip.dataset.topic;
+      state.flipIndex = 0;
+      state.flipped = false;
+      state.studyQueue = buildStudyQueue();
+      state.studyCurrent = state.studyQueue[0] || null;
+      state.studyAnswered = 0;
+      renderTopicFilters();
+      render();
+    });
+  });
+}
+
+// Study queue (Leitner-style spaced repetition)
+// Box 0: new. Box 1: again (seen 1m). Box 2: hard (10m). Box 3: good (1d). Box 4: mastered (4d).
+const BOX_DELAYS = [0, 60 * 1000, 10 * 60 * 1000, 24 * 60 * 60 * 1000, 4 * 24 * 60 * 60 * 1000];
+
+function buildStudyQueue() {
+  const now = Date.now();
+  const due = filteredCards().filter(c => {
+    const p = state.progress[c.id];
+    if (!p) return true; // new
+    return (p.nextDue || 0) <= now;
+  });
+  // Shuffle
+  for (let i = due.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [due[i], due[j]] = [due[j], due[i]];
+  }
+  return due;
+}
+
+function rateCard(rating) { // 'again' | 'hard' | 'good'
+  if (!state.studyCurrent) return;
+  const id = state.studyCurrent.id;
+  const p = state.progress[id] || { box: 0, seen: 0 };
+  let newBox;
+  if (rating === 'again') newBox = 1;
+  else if (rating === 'hard') newBox = Math.max(1, Math.min(p.box, 2));
+  else if (rating === 'good') newBox = Math.min(4, (p.box || 0) + 1);
+  p.box = newBox;
+  p.seen = (p.seen || 0) + 1;
+  p.nextDue = Date.now() + BOX_DELAYS[newBox];
+  state.progress[id] = p;
+  saveProgress(state.progress);
+  state.studyAnswered++;
+  // Next card
+  state.studyQueue.shift();
+  if (rating === 'again') state.studyQueue.push(state.studyCurrent);
+  state.studyCurrent = state.studyQueue[0] || null;
+  state.flipped = false;
+  render();
+}
+
+// Render functions
+function render() {
+  const main = document.getElementById('mainContent');
+  const subtitle = document.getElementById('subtitle');
+  const total = cards.length;
+  const mastered = Object.values(state.progress).filter(p => p.box >= 4).length;
+  const inProgress = Object.values(state.progress).filter(p => p.box >= 1 && p.box < 4).length;
+  subtitle.textContent = `${total} cards · ${mastered} mastered · ${inProgress} in progress`;
+
+  // Mode tabs
+  document.querySelectorAll('.mode-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.mode === state.mode);
+  });
+
+  if (state.mode === 'study') renderStudy(main);
+  else if (state.mode === 'flip') renderFlip(main);
+  else renderBrowse(main);
+}
+
+function renderStudy(main) {
+  const total = filteredCards().length;
+  const mastered = filteredCards().filter(c => (state.progress[c.id]?.box || 0) >= 4).length;
+  const due = state.studyQueue.length;
+
+  if (!state.studyCurrent && due === 0) {
+    main.innerHTML = `
+      <div class="stats-bar">
+        <div class="stat"><span class="stat-value">${mastered}</span><span class="stat-label">Mastered</span></div>
+        <div class="stat"><span class="stat-value">${total - mastered}</span><span class="stat-label">Remaining</span></div>
+        <div class="stat"><span class="stat-value">${state.studyAnswered}</span><span class="stat-label">This session</span></div>
+      </div>
+      <div class="card">
+        <div class="empty-state">
+          <h3>All caught up</h3>
+          <p>No cards due for review right now. Come back later, or switch to Flip mode to keep reviewing.</p>
+          <button class="btn primary" id="studyAllAgain" style="margin-top: 1rem;">Study all cards anyway</button>
+        </div>
+      </div>
+    `;
+    const btn = document.getElementById('studyAllAgain');
+    if (btn) btn.addEventListener('click', () => {
+      state.studyQueue = [...filteredCards()];
+      for (let i = state.studyQueue.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [state.studyQueue[i], state.studyQueue[j]] = [state.studyQueue[j], state.studyQueue[i]];
+      }
+      state.studyCurrent = state.studyQueue[0] || null;
+      render();
+    });
+    return;
+  }
+
+  const c = state.studyCurrent;
+  const p = state.progress[c.id];
+  const boxLabel = p ? `Box ${p.box}` : 'New';
+
+  main.innerHTML = `
+    <div class="stats-bar">
+      <div class="stat"><span class="stat-value">${due}</span><span class="stat-label">Due</span></div>
+      <div class="stat"><span class="stat-value">${state.studyAnswered}</span><span class="stat-label">Answered</span></div>
+      <div class="stat"><span class="stat-value">${mastered}/${total}</span><span class="stat-label">Mastered</span></div>
+    </div>
+    <div class="card-container">
+      <div class="card" id="studyCard">
+        <div class="card-meta">
+          <span class="card-topic">${c.topic}</span>
+          <span><span class="card-type-tag">${c.type}</span> &nbsp; ${boxLabel}</span>
+        </div>
+        <div class="card-title">${c.title}</div>
+        <div class="card-side-label">${state.flipped ? 'Rule / elements' : 'Prompt'}</div>
+        <div class="card-content">${state.flipped ? c.back : c.front}</div>
+        ${!state.flipped ? `<div class="flip-hint">Tap card or press Space to reveal the rule</div>` : ''}
+      </div>
+    </div>
+    ${state.flipped ? `
+      <div class="rating-row">
+        <button class="rating-btn rating-again" data-rating="again"><span class="label">Again</span><span class="shortcut">1 · &lt;1 min</span></button>
+        <button class="rating-btn rating-hard" data-rating="hard"><span class="label">Hard</span><span class="shortcut">2 · 10 min</span></button>
+        <button class="rating-btn rating-good" data-rating="good"><span class="label">Good</span><span class="shortcut">3 · 1+ day</span></button>
+      </div>` : ''}
+  `;
+
+  document.getElementById('studyCard').addEventListener('click', () => {
+    state.flipped = !state.flipped;
+    render();
+  });
+  if (state.flipped) {
+    document.querySelectorAll('.rating-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        rateCard(btn.dataset.rating);
+      });
+    });
+  }
+}
+
+function renderFlip(main) {
+  const list = filteredCards();
+  if (list.length === 0) {
+    main.innerHTML = `<div class="card"><div class="empty-state"><h3>No cards match</h3><p>Try clearing your search or topic filter.</p></div></div>`;
+    return;
+  }
+  if (state.flipIndex >= list.length) state.flipIndex = 0;
+  const c = list[state.flipIndex];
+  main.innerHTML = `
+    <div class="card-container">
+      <div class="card" id="flipCard">
+        <div class="card-meta">
+          <span class="card-topic">${c.topic}</span>
+          <span><span class="card-type-tag">${c.type}</span></span>
+        </div>
+        <div class="card-title">${c.title}</div>
+        <div class="card-side-label">${state.flipped ? 'Rule / elements' : 'Prompt'}</div>
+        <div class="card-content">${state.flipped ? c.back : c.front}</div>
+        ${!state.flipped ? `<div class="flip-hint">Tap card or press Space to reveal</div>` : ''}
+      </div>
+    </div>
+    <div class="nav">
+      <button class="nav-btn" id="prevBtn">← Previous</button>
+      <div class="progress">${state.flipIndex + 1} / ${list.length}</div>
+      <button class="nav-btn" id="nextBtn">Next →</button>
+    </div>
+  `;
+  document.getElementById('flipCard').addEventListener('click', () => {
+    state.flipped = !state.flipped;
+    render();
+  });
+  document.getElementById('prevBtn').addEventListener('click', () => {
+    state.flipIndex = (state.flipIndex - 1 + list.length) % list.length;
+    state.flipped = false;
+    render();
+  });
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    state.flipIndex = (state.flipIndex + 1) % list.length;
+    state.flipped = false;
+    render();
+  });
+}
+
+function stripHtml(html) {
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || '';
+}
+
+function renderBrowse(main) {
+  const list = filteredCards();
+  if (list.length === 0) {
+    main.innerHTML = `<div class="card"><div class="empty-state"><h3>No cards match</h3><p>Try clearing your search or topic filter.</p></div></div>`;
+    return;
+  }
+  main.innerHTML = `
+    <div class="browse-list">
+      ${list.map(c => {
+        const p = state.progress[c.id];
+        const boxLabel = p ? `Box ${p.box}` : '';
+        return `
+          <div class="browse-item" data-id="${c.id}">
+            <div class="browse-item-head">
+              <span class="card-topic" style="color: var(--accent); font-weight: 500;">${c.topic} · ${c.type}</span>
+              <span style="color: var(--text-faint);">${boxLabel}</span>
+            </div>
+            <div class="browse-item-title">${c.title}</div>
+            <div class="browse-item-preview">${stripHtml(c.front)}</div>
+          </div>`;
+      }).join('')}
+    </div>
+  `;
+  document.querySelectorAll('.browse-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const id = Number(item.dataset.id);
+      const c = cards.find(x => x.id === id);
+      const existing = item.querySelector('.browse-expanded');
+      if (existing) { existing.remove(); return; }
+      const div = document.createElement('div');
+      div.className = 'browse-expanded';
+      div.innerHTML = `<strong>Front:</strong> ${c.front}<br><br><strong>Back:</strong> ${c.back}`;
+      item.appendChild(div);
+    });
+  });
+}
+
+// Mode tabs
+document.querySelectorAll('.mode-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    state.mode = tab.dataset.mode;
+    state.flipped = false;
+    if (state.mode === 'study' && (!state.studyCurrent || state.studyQueue.length === 0)) {
+      state.studyQueue = buildStudyQueue();
+      state.studyCurrent = state.studyQueue[0] || null;
+      state.studyAnswered = 0;
+    }
+    render();
+  });
+});
+
+// Search
+document.getElementById('search').addEventListener('input', (e) => {
+  state.search = e.target.value;
+  state.flipIndex = 0;
+  state.flipped = false;
+  if (state.mode === 'study') {
+    state.studyQueue = buildStudyQueue();
+    state.studyCurrent = state.studyQueue[0] || null;
+  }
+  render();
+});
+
+// Shuffle
+document.getElementById('shuffleBtn').addEventListener('click', () => {
+  if (state.mode === 'study') {
+    for (let i = state.studyQueue.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [state.studyQueue[i], state.studyQueue[j]] = [state.studyQueue[j], state.studyQueue[i]];
+    }
+    state.studyCurrent = state.studyQueue[0] || null;
+  } else if (state.mode === 'flip') {
+    state.flipIndex = Math.floor(Math.random() * filteredCards().length);
+    state.flipped = false;
+  }
+  render();
+});
+
+// Reset progress
+document.getElementById('resetBtn').addEventListener('click', () => {
+  if (confirm('Reset all study progress? This clears your mastery data across every card.')) {
+    state.progress = {};
+    saveProgress({});
+    state.studyQueue = buildStudyQueue();
+    state.studyCurrent = state.studyQueue[0] || null;
+    state.studyAnswered = 0;
+    render();
+  }
+});
+
+// Keyboard
+document.addEventListener('keydown', (e) => {
+  if (document.activeElement && document.activeElement.tagName === 'INPUT') return;
+  if (e.key === ' ') { e.preventDefault(); state.flipped = !state.flipped; render(); }
+  else if (e.key === 'ArrowRight' && state.mode === 'flip') {
+    const list = filteredCards();
+    if (list.length) { state.flipIndex = (state.flipIndex + 1) % list.length; state.flipped = false; render(); }
+  }
+  else if (e.key === 'ArrowLeft' && state.mode === 'flip') {
+    const list = filteredCards();
+    if (list.length) { state.flipIndex = (state.flipIndex - 1 + list.length) % list.length; state.flipped = false; render(); }
+  }
+  else if (state.mode === 'study' && state.flipped) {
+    if (e.key === '1') rateCard('again');
+    else if (e.key === '2') rateCard('hard');
+    else if (e.key === '3') rateCard('good');
+  }
+});
+
+// Initialize
+state.studyQueue = buildStudyQueue();
+state.studyCurrent = state.studyQueue[0] || null;
+renderTopicFilters();
+render();
+</script>
+</body>
+</html>
