@@ -442,7 +442,190 @@
     margin: 0 2px;
   }
 
+  /* Quiz mode */
+  .quiz-prompt {
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 14px;
+    padding: 1.75rem 2rem;
+    margin-bottom: 1.25rem;
+    box-shadow: var(--shadow);
+  }
+  .quiz-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 0.75rem;
+  }
+  .quiz-question-label {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .quiz-question-label::before {
+    content: '';
+    width: 16px;
+    height: 1px;
+    background: var(--border-strong);
+  }
+  .quiz-clue {
+    font-size: 1.02rem;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+  .quiz-clue strong { font-weight: 600; color: var(--accent-dark); }
+  .quiz-clue em { font-style: italic; color: var(--text-muted); }
+
+  .quiz-input-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 1rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .quiz-input {
+    flex: 1;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 15px;
+  }
+  .quiz-input:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: var(--accent); }
+  .quiz-submit {
+    padding: 12px 22px;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .quiz-submit:hover { background: var(--accent-dark); }
+  .quiz-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .quiz-choices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 1rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .quiz-choice {
+    padding: 14px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    color: var(--text);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 13px;
+    text-align: left;
+    transition: all 0.15s;
+    line-height: 1.4;
+  }
+  .quiz-choice:hover:not(:disabled) {
+    background: var(--surface-2);
+    border-color: var(--accent);
+  }
+  .quiz-choice.correct {
+    background: var(--good-bg);
+    border-color: var(--good);
+    color: var(--good);
+    font-weight: 500;
+  }
+  .quiz-choice.incorrect {
+    background: var(--again-bg);
+    border-color: var(--again);
+    color: var(--again);
+  }
+  .quiz-choice:disabled { cursor: default; }
+
+  .quiz-feedback {
+    padding: 1rem 1.25rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .quiz-feedback.correct {
+    background: var(--good-bg);
+    border: 1px solid var(--good);
+    color: var(--good);
+  }
+  .quiz-feedback.incorrect {
+    background: var(--again-bg);
+    border: 1px solid var(--again);
+    color: var(--again);
+  }
+  .quiz-feedback .answer-name {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    font-family: Georgia, serif;
+  }
+  .quiz-reveal {
+    background: var(--surface-2);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+  .quiz-reveal strong { color: var(--accent-dark); }
+
+  .quiz-mode-toggle {
+    display: flex;
+    gap: 6px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 12px;
+    margin-bottom: 1rem;
+    align-items: center;
+    color: var(--text-muted);
+  }
+  .quiz-mode-toggle .toggle-label { margin-right: 8px; }
+  .quiz-mode-btn {
+    padding: 5px 11px;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text-muted);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 12px;
+  }
+  .quiz-mode-btn.active {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .quiz-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+
   @media (max-width: 600px) {
+    .quiz-choices { grid-template-columns: 1fr; }
+    .quiz-prompt { padding: 1.25rem 1rem; }
     .app { padding: 1rem 0.75rem 3rem; }
     .card { padding: 1.5rem 1.25rem; min-height: 340px; }
     .card-title { font-size: 1.15rem; }
@@ -468,6 +651,7 @@
   <div class="mode-tabs">
     <button class="mode-tab active" data-mode="study">Study</button>
     <button class="mode-tab" data-mode="flip">Flip</button>
+    <button class="mode-tab" data-mode="quiz">Name the Case</button>
     <button class="mode-tab" data-mode="browse">Browse</button>
   </div>
 
@@ -486,7 +670,8 @@
     <kbd>Space</kbd> flip &nbsp;·&nbsp;
     <kbd>1</kbd> again &nbsp;·&nbsp;
     <kbd>2</kbd> hard &nbsp;·&nbsp;
-    <kbd>3</kbd> good
+    <kbd>3</kbd> good &nbsp;·&nbsp;
+    <kbd>Enter</kbd> next (in quiz)
   </div>
 </div>
 
@@ -651,7 +836,7 @@ function saveProgress(p) {
 }
 
 const state = {
-  mode: 'study',          // 'study' | 'flip' | 'browse'
+  mode: 'study',          // 'study' | 'flip' | 'quiz' | 'browse'
   activeTopic: 'All',
   search: '',
   flipIndex: 0,
@@ -660,6 +845,12 @@ const state = {
   studyCurrent: null,
   studyAnswered: 0,
   progress: loadProgress(), // { [cardId]: { box: 0-4, nextDue: timestamp, seen: n } }
+  quizFormat: 'multiple',   // 'multiple' | 'typing'
+  quizCurrent: null,
+  quizChoices: [],
+  quizAnswered: false,
+  quizUserAnswer: '',
+  quizScore: { right: 0, total: 0 },
 };
 
 // Theme
@@ -708,6 +899,7 @@ function renderTopicFilters() {
       state.studyQueue = buildStudyQueue();
       state.studyCurrent = state.studyQueue[0] || null;
       state.studyAnswered = 0;
+      if (state.mode === 'quiz') pickNewQuiz();
       renderTopicFilters();
       render();
     });
@@ -771,6 +963,7 @@ function render() {
 
   if (state.mode === 'study') renderStudy(main);
   else if (state.mode === 'flip') renderFlip(main);
+  else if (state.mode === 'quiz') renderQuiz(main);
   else renderBrowse(main);
 }
 
@@ -900,6 +1093,234 @@ function stripHtml(html) {
   return tmp.textContent || tmp.innerText || '';
 }
 
+// ============ Quiz Mode (Name the Case) ============
+function caseCards() {
+  return cards.filter(c => c.type === 'Case').filter(c => {
+    if (state.activeTopic !== 'All' && c.topic !== state.activeTopic) return false;
+    if (state.search) {
+      const q = state.search.toLowerCase();
+      if (!c.title.toLowerCase().includes(q) &&
+          !c.front.toLowerCase().includes(q) &&
+          !c.back.toLowerCase().includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+// Strip parenthetical (year), trailing dashes, and "court name" suffixes for forgiving matching
+function normalizeCaseName(name) {
+  return name
+    .toLowerCase()
+    .replace(/\([^)]*\)/g, '')      // remove (1884), (5th Cir.), etc.
+    .replace(/—.*$/, '')             // remove em-dash subtitle
+    .replace(/--.*$/, '')            // remove double-hyphen subtitle
+    .replace(/[.,]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+// Get just the core "X v. Y" portion if present
+function coreCaseName(name) {
+  const norm = normalizeCaseName(name);
+  // Match patterns like "regina v dudley and stephens" or "people v lauria"
+  const match = norm.match(/^([a-z'.\s]+?\s+v\.?\s+[a-z'.\s]+?)(\s|$)/);
+  if (match) return match[1].trim();
+  return norm;
+}
+
+function pickNewQuiz() {
+  const pool = caseCards();
+  if (pool.length === 0) {
+    state.quizCurrent = null;
+    state.quizChoices = [];
+    state.quizAnswered = false;
+    state.quizUserAnswer = '';
+    return;
+  }
+  // Try to avoid repeating the immediately previous card
+  let candidates = pool;
+  if (state.quizCurrent && pool.length > 1) {
+    candidates = pool.filter(c => c.id !== state.quizCurrent.id);
+  }
+  const next = candidates[Math.floor(Math.random() * candidates.length)];
+  state.quizCurrent = next;
+  state.quizAnswered = false;
+  state.quizUserAnswer = '';
+
+  // Build distractors for multiple choice
+  if (state.quizFormat === 'multiple') {
+    // Prefer same-topic distractors when possible, fall back to all
+    const sameTopic = pool.filter(c => c.id !== next.id && c.topic === next.topic);
+    const others = pool.filter(c => c.id !== next.id && c.topic !== next.topic);
+    const distractorPool = sameTopic.length >= 3 ? sameTopic : [...sameTopic, ...others];
+    const shuffled = [...distractorPool].sort(() => Math.random() - 0.5);
+    const distractors = shuffled.slice(0, 3);
+    const choices = [next, ...distractors].sort(() => Math.random() - 0.5);
+    state.quizChoices = choices;
+  } else {
+    state.quizChoices = [];
+  }
+}
+
+function checkTypedAnswer() {
+  const guess = normalizeCaseName(state.quizUserAnswer);
+  const target = normalizeCaseName(state.quizCurrent.title);
+  const targetCore = coreCaseName(state.quizCurrent.title);
+  if (!guess) return false;
+  // Accept if guess matches the full normalized name OR the core "X v Y" portion
+  // Also accept if the guess contains the core, or the core contains the guess (for partial matches like just last names)
+  if (guess === target || guess === targetCore) return true;
+  if (targetCore.length > 4 && (guess.includes(targetCore) || targetCore.includes(guess) && guess.length >= 5)) return true;
+  // Last-name only fallback: e.g. "dudley" or "lauria" or "carroll"
+  const targetTokens = targetCore.split(' ').filter(t => t !== 'v' && t !== 'v.' && t.length > 2);
+  const guessTokens = guess.split(' ').filter(t => t.length > 2);
+  if (guessTokens.length >= 1 && guessTokens.every(t => targetTokens.includes(t))) {
+    // Require at least one substantive name token (not generic words)
+    return true;
+  }
+  return false;
+}
+
+function answerMultiple(chosenId) {
+  if (state.quizAnswered) return;
+  state.quizAnswered = true;
+  state.quizScore.total++;
+  if (chosenId === state.quizCurrent.id) state.quizScore.right++;
+  state.quizUserAnswer = String(chosenId);
+  render();
+}
+
+function submitTyped() {
+  if (state.quizAnswered) return;
+  if (!state.quizUserAnswer.trim()) return;
+  state.quizAnswered = true;
+  state.quizScore.total++;
+  if (checkTypedAnswer()) state.quizScore.right++;
+  render();
+}
+
+function renderQuiz(main) {
+  const pool = caseCards();
+  if (pool.length === 0) {
+    main.innerHTML = `
+      <div class="card">
+        <div class="empty-state">
+          <h3>No cases to quiz</h3>
+          <p>This filter doesn't include any cases. Try selecting "All" or a different topic.</p>
+        </div>
+      </div>`;
+    return;
+  }
+  if (!state.quizCurrent) pickNewQuiz();
+  const c = state.quizCurrent;
+  const isMultiple = state.quizFormat === 'multiple';
+  const correct = state.quizAnswered && (
+    isMultiple ? Number(state.quizUserAnswer) === c.id : checkTypedAnswer()
+  );
+
+  const accuracy = state.quizScore.total > 0
+    ? Math.round((state.quizScore.right / state.quizScore.total) * 100)
+    : 0;
+
+  // Pick which side to show as the clue. Prefer the back (rule/holding) since it's
+  // typically more case-specific. If back is short, also include the front.
+  const backText = c.back;
+  const frontText = c.front;
+  const clueHtml = `
+    <div class="quiz-question-label">Identify the case from these facts and rule</div>
+    <div class="quiz-clue"><strong>Facts/Issue:</strong> ${frontText}</div>
+    <div class="quiz-clue" style="margin-top: 10px;"><strong>Holding/Rule:</strong> ${backText}</div>
+  `;
+
+  let answerSection = '';
+  if (isMultiple) {
+    answerSection = `
+      <div class="quiz-choices">
+        ${state.quizChoices.map(choice => {
+          let cls = '';
+          if (state.quizAnswered) {
+            if (choice.id === c.id) cls = 'correct';
+            else if (String(choice.id) === state.quizUserAnswer) cls = 'incorrect';
+          }
+          return `<button class="quiz-choice ${cls}" data-id="${choice.id}" ${state.quizAnswered ? 'disabled' : ''}>${choice.title}</button>`;
+        }).join('')}
+      </div>
+    `;
+  } else {
+    answerSection = `
+      <div class="quiz-input-row">
+        <input type="text" class="quiz-input" id="quizInput" placeholder="Type the case name (e.g., 'Dudley', 'Carroll', 'Pinkerton')" value="${state.quizUserAnswer.replace(/"/g, '&quot;')}" ${state.quizAnswered ? 'disabled' : ''} autocomplete="off" />
+        <button class="quiz-submit" id="quizSubmit" ${state.quizAnswered ? 'disabled' : ''}>Check</button>
+      </div>
+      <div style="font-size: 12px; color: var(--text-faint); font-family: 'Helvetica Neue', Arial, sans-serif; margin-bottom: 1rem;">Last name alone is fine. Spelling, year, and court are ignored.</div>
+    `;
+  }
+
+  let feedbackSection = '';
+  if (state.quizAnswered) {
+    feedbackSection = `
+      <div class="quiz-feedback ${correct ? 'correct' : 'incorrect'}">
+        <div class="answer-name">${correct ? '✓ Correct' : '✗ Not quite'} — ${c.title}</div>
+        ${!correct && !isMultiple ? `<div style="margin-top: 4px; opacity: 0.85;">Your answer: ${state.quizUserAnswer || '(blank)'}</div>` : ''}
+      </div>
+      <div class="quiz-actions">
+        <button class="btn primary" id="nextQuiz">Next case →</button>
+      </div>
+    `;
+  }
+
+  main.innerHTML = `
+    <div class="quiz-mode-toggle">
+      <span class="toggle-label">Format:</span>
+      <button class="quiz-mode-btn ${isMultiple ? 'active' : ''}" data-format="multiple">Multiple choice</button>
+      <button class="quiz-mode-btn ${!isMultiple ? 'active' : ''}" data-format="typing">Type the name</button>
+    </div>
+    <div class="stats-bar">
+      <div class="stat"><span class="stat-value">${state.quizScore.right}</span><span class="stat-label">Correct</span></div>
+      <div class="stat"><span class="stat-value">${state.quizScore.total}</span><span class="stat-label">Answered</span></div>
+      <div class="stat"><span class="stat-value">${accuracy}%</span><span class="stat-label">Accuracy</span></div>
+    </div>
+    <div class="quiz-prompt">
+      <div class="quiz-meta">
+        <span class="card-topic" style="color: var(--accent); font-weight: 500;">${c.topic}</span>
+        <span class="card-type-tag">${pool.length} cases in pool</span>
+      </div>
+      ${clueHtml}
+    </div>
+    ${answerSection}
+    ${feedbackSection}
+  `;
+
+  // Wire up events
+  document.querySelectorAll('.quiz-mode-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.quizFormat = btn.dataset.format;
+      pickNewQuiz();
+      render();
+    });
+  });
+
+  if (isMultiple) {
+    document.querySelectorAll('.quiz-choice').forEach(btn => {
+      btn.addEventListener('click', () => answerMultiple(Number(btn.dataset.id)));
+    });
+  } else {
+    const input = document.getElementById('quizInput');
+    const submit = document.getElementById('quizSubmit');
+    if (input && !state.quizAnswered) {
+      input.focus();
+      input.addEventListener('input', (e) => { state.quizUserAnswer = e.target.value; });
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); submitTyped(); }
+      });
+    }
+    if (submit) submit.addEventListener('click', submitTyped);
+  }
+
+  const next = document.getElementById('nextQuiz');
+  if (next) next.addEventListener('click', () => { pickNewQuiz(); render(); });
+}
+
 function renderBrowse(main) {
   const list = filteredCards();
   if (list.length === 0) {
@@ -947,6 +1368,9 @@ document.querySelectorAll('.mode-tab').forEach(tab => {
       state.studyCurrent = state.studyQueue[0] || null;
       state.studyAnswered = 0;
     }
+    if (state.mode === 'quiz' && !state.quizCurrent) {
+      pickNewQuiz();
+    }
     render();
   });
 });
@@ -959,6 +1383,9 @@ document.getElementById('search').addEventListener('input', (e) => {
   if (state.mode === 'study') {
     state.studyQueue = buildStudyQueue();
     state.studyCurrent = state.studyQueue[0] || null;
+  }
+  if (state.mode === 'quiz') {
+    pickNewQuiz();
   }
   render();
 });
@@ -974,6 +1401,8 @@ document.getElementById('shuffleBtn').addEventListener('click', () => {
   } else if (state.mode === 'flip') {
     state.flipIndex = Math.floor(Math.random() * filteredCards().length);
     state.flipped = false;
+  } else if (state.mode === 'quiz') {
+    pickNewQuiz();
   }
   render();
 });
@@ -1006,6 +1435,10 @@ document.addEventListener('keydown', (e) => {
     if (e.key === '1') rateCard('again');
     else if (e.key === '2') rateCard('hard');
     else if (e.key === '3') rateCard('good');
+  }
+  else if (state.mode === 'quiz' && state.quizAnswered && e.key === 'Enter') {
+    pickNewQuiz();
+    render();
   }
 });
 
